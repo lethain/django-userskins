@@ -1,7 +1,7 @@
 
-### CONCEPT
+# CONCEPT
 
-The purpose of django-userskins is to allow Django apps
+The purpose of django-userskins is to facilitate Django apps
 to allow users to select from a variety of provided skins
 to customize how a site looks for them. Essentially, to
 provide the functionality exposed in Twitter's recent

@@ -13,7 +13,7 @@ def userskins(request):
             except SkinPreference.ObjectDoesNotExist:
                 pass
             request.COOKIES["userskins"] = skin
-    if settings.USERSKINS_USER_COMPRESS_GROUPS_INSTEAD:
+    if settings.USERSKINS_USE_COMPRESS_GROUPS:
         return {"userskins_skin": skin, "userskins_use_compress":True }
     else:
         skin_uri = u"%s%s" % (settings.MEDIA_URL, settings.USERSKINS_DETAILS[skin])

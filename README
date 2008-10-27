@@ -20,9 +20,9 @@
             'light':'light.css',
             'dark':'dark.css',
         }
-        USERSKINS_USE_COMPRESS_GROUPS_INSTEAD = False
+        USERSKINS_USE_COMPRESS_GROUPS = False
 
-    ``USERSKINS_USE_COMPRESS_GROUPS_INSTEAD`` is to support integration
+    ``USERSKINS_USE_COMPRESS_GROUPS`` is to support integration
     with the django-compress project. In that case, the values of keys
     in ``USERSKINS_DETAILS`` are ignored, and the keys themselves are
     passed to the django-compress template tags as names of compressed

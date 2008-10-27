@@ -7,7 +7,7 @@ USERSKINS_DETAILS = {
     'light':'light.css',
     'dark':'dark.css',
 }
-USERSKINS_USE_COMPRESS_GROUPS_INSTEAD = False
+USERSKINS_USE_COMPRESS_GROUPS = False
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.auth",

@@ -7,13 +7,6 @@
     the response, and b) create a SkinPreference instance
     for the user and skin.
 
-2.  Update README to discuss handling skin selection,
-    and discuss the technical details behind how skins
-    preference is remembered (stored in a cookie, but
-    if the cookie is deleted will refresh the cookie
-    from the database if the user has established a
-    preference).
-
 3.  Add an option to disable hitting the database if
     a user is missing the cookie. (Only use cookies for
     skin preference persistence.)

@@ -51,7 +51,11 @@ HttpResponse objects and:
     userskins cookie. When it does hit the database, it will
     set a cookie for the user, so it should only be necessary
     to hit the database once each time a user cleans their
-    cookie cache.)
+    cookie cache. Also note, that you may use the
+    ``USERSKINS_NEVER_ACCESS_DATABASE`` setting value to
+    disable the middleware, and thus remove all database
+    accesses, although skin preferences will no longer
+    persist across cookie cleanings.)
 
     Set the value of the ``userskins`` cookie to the value stored
     in the ``SkinPreference`` object if one exists, otherwise set
@@ -107,20 +111,34 @@ django-compress group.
             'light':'light.css',
             'dark':'dark.css',
         }
-        USERSKINS_USE_COMPRESS_GROUPS = False
+        USERSKINS_USE_COMPRESS_GROUPS = False   # optional
+        USERSKINS_NEVER_ACCESS_DATABASE = False # optional
 
     ``USERSKINS_USE_COMPRESS_GROUPS`` is to support integration
     with the django-compress project. In that case, the values of keys
     in ``USERSKINS_DETAILS`` are ignored, and the keys themselves are
     passed to the django-compress template tags as names of compressed
-    css groups.
+    css groups. The default value of ``USERSKINS_USER_COMPRESS_GROUP``
+    is False.
 
     It is highly recommended to use django-userskins along with
     django-compress, as it will allow you to provide users with
     selectable skins without increasing the median bandwith per
     request or the median number of http requests per page.
 
-6.  Now modify your base template (or wherever you want to use skins)
+    There is also the ``USERSKINS_NEVER_ACCESS_DATABASE`` option,
+    which is what you should use if you want skin preferences to
+    be entirely cookie based (and never check the database if
+    the user has an associated SkinPreference object). The default
+    value of ``USERSKINS_NEVER_ACCESS_DATABASE`` is False.
+
+7.  Sync your database to create the relevant models.
+    Note that this is not necessary if you use
+    ``USERSKINS_NEVER_ACCESS_DATABASE = True``.
+
+        python manage.py syncdb
+
+8.  Now modify your base template (or wherever you want to use skins)
     to resemble this code:
 
         {% load userskins %}
@@ -133,5 +151,12 @@ django-compress group.
         </body>
         </html>
 
-    And you're done.
+9.  The last stage of setup is to setup a mechanism for
+    allowing users to select skins. Depending on your needs,
+    this may be as simple as a view that sets an appropriate
+    cookie and redirects to the page they came from, or it may
+    be part of a user preferences panel.
 
+    More details coming soon, for the time being look at the
+    userskins.models.SkinPreference model and the
+    dev_userskins.urls file for some ideas.

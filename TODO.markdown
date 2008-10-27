@@ -7,9 +7,5 @@
     the response, and b) create a SkinPreference instance
     for the user and skin.
 
-3.  Add an option to disable hitting the database if
-    a user is missing the cookie. (Only use cookies for
-    skin preference persistence.)
-
-4.  Test that the integration with django-compress
+2.  Test that the integration with django-compress
     actually works (pretty sure it does ;).

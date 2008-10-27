@@ -1,5 +1,45 @@
+
+### SETUP
+
+1.  Add ``django-userskins.userskins`` to your Python path.
+2. Add ``userskins`` to your applications ``INSTALLED_APPS`` setting in settings.py.
+3. Add the ``userskins.context.userskins`` template context processor in ``settings.py`` (note that this will be a new setting in your settings.py file, by default it is not shown):
+
+        TEMPLATE_CONTEXT_PROCESSORS = (
+            "django.core.context_processors.auth",
+            "django.core.context_processors.debug",
+            "django.core.context_processors.i18n",
+            "django.core.context_processors.media",
+            "userskins.context.userskins",
+            )
+
+4. Establish values for the ``USERSKINS_DEFAULT``, ``USERSKINS_DETAILS`` and ``USERSKINS_USE_COMPRESS_GROUPS_INSTEAD`` values in your settings.py file.
+
+        USERSKINS_DEFAULT = "light"
+        USERSKINS_DETAILS = {
+            'light':'light.css',
+            'dark':'dark.css',
+        }
+        USERSKINS_USE_COMPRESS_GROUPS_INSTEAD = False
+
+    ``USERSKINS_USE_COMPRESS_GROUPS_INSTEAD`` is to support integration
+    with the django-compress project. In that case, the values of keys
+    in ``USERSKINS_DETAILS`` are ignored, and the keys themselves are
+    passed to the django-compress template tags as names of compressed
+    css groups.
+
+    It is highly recommended to use django-userskins along with
+    django-compress, as it will allow you to provide users with
+    selectable skins without increasing the median bandwith per
+    request or the median number of http requests per page.
+
+
+### INITIAL DESIGN
+
 The initial design of django-userskins is roughly based
-on this email sent to [Yashh](http://yashh.com].
+on this email sent to [Yashh](http://yashh.com) by [Will Larson](http://lethain.com).
+
+--------
 
 Yashh,
 

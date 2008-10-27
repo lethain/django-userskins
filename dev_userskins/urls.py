@@ -4,13 +4,8 @@ from django.conf.urls.defaults import *
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Example:
-    # (r'^dev_userskins/', include('dev_userskins.foo.urls')),
-
-    # Uncomment the next line to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # (r'^admin/(.*)', admin.site.root),
+urlpatterns = patterns(
+    '',
+    (r'^$','django.views.generic.simple.direct_to_template',
+     {'template':'dev_index.html'}),
 )

@@ -1,5 +1,21 @@
 # Django settings for dev_userskins project.
 
+USERSKINS_DEFAULT = "light"
+USERSKINS_DETAILS = {
+    'light':'light.css',
+    'dark':'dark.css',
+}
+USERSKINS_USE_COMPRESS_GROUPS_INSTEAD = False
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "userskins.context.userskins",
+    )
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

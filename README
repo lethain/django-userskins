@@ -2,8 +2,14 @@
 ### SETUP
 
 1.  Add ``django-userskins.userskins`` to your Python path.
-2. Add ``userskins`` to your applications ``INSTALLED_APPS`` setting in settings.py.
-3. Add the ``userskins.context.userskins`` template context processor in ``settings.py`` (note that this will be a new setting in your settings.py file, by default it is not shown):
+
+2.  Add ``userskins`` to your applications ``INSTALLED_APPS``
+    setting in settings.py.
+
+3.  Add the ``userskins.context.userskins`` template context
+    processor in ``settings.py`` (note that this will be a
+    new setting in your settings.py file, by default it is
+    not shown):
 
         TEMPLATE_CONTEXT_PROCESSORS = (
             "django.core.context_processors.auth",
@@ -13,7 +19,9 @@
             "userskins.context.userskins",
             )
 
-4. Establish values for the ``USERSKINS_DEFAULT``, ``USERSKINS_DETAILS`` and ``USERSKINS_USE_COMPRESS_GROUPS_INSTEAD`` values in your settings.py file.
+4.  Establish values for the ``USERSKINS_DEFAULT``, ``USERSKINS_DETAILS``
+    and ``USERSKINS_USE_COMPRESS_GROUPS_INSTEAD`` values in your
+    settings.py file.
 
         USERSKINS_DEFAULT = "light"
         USERSKINS_DETAILS = {
@@ -33,78 +41,18 @@
     selectable skins without increasing the median bandwith per
     request or the median number of http requests per page.
 
+5.  Now modify your base template (or wherever you want to use skins)
+    to resemble this code:
 
-### INITIAL DESIGN
+        {% load userskins %}
+        <html><head>
+        <title> Some title </title>
+        {% userskin %}
+        </head>
+        <body>
+        {% block content %}{% endblock %}
+        </body>
+        </html>
 
-The initial design of django-userskins is roughly based
-on this email sent to [Yashh](http://yashh.com) by [Will Larson](http://lethain.com).
-
---------
-
-Yashh,
-
-Using django-chunks is an interesting idea, but (if feasible) I'd like to do it without injecting css into the html documents (don't have to resend the CSS with each page, which will cut down on bandwidth and http requests).
-
-Here is my rough idea (I'm not sure how good it is yet ;):
-
-1. Create a model like this:
-
-   class SkinPreference(models.Model):
-       user = models.ForeignKey(User)
-       skin = models.CharField(max_length=20)
-
-2. Create a view that lets users select a skin preference:
-
-   @login_required
-   def select_skin(request):
-       if request.POST.has_key("skin"):
-           SkinPreference.objects.create(user=request.user, skin=request.POST["skin"])
-           return HttpResponse(u"Selected skin %s" % request.POST["skin"])
-       else:
-           return HttpResponseServerError(u"Did not POST the 'skin' key.")
-
-2. Create a context processor SkinContext that will handle determining the correct skin for the current user. To avoid adding an extra database request each time, we'll only hit the database if the user is authenticated (non-authenticated users can't have a skin preference, and will always get default), and we'll try to store the selected skin in a cookie if possible
-
-   def process_request(self, request):
-       context = {}
-       if request.user.is_anonymous():
-           context['skin'] = "default"
-      else:
-           if request.COOKIES.has_key("skin"):
-              context['skin'] = request.COOKIES["skin"]
-           else:
-               try:
-                   skin = SkinPreference.objects.get(user=request.user).skin
-               except SkinPreference.ObjectDoesNotExist:
-                   skin = "default"
-                request.COOKIES["skin"] = skin
-                context['skin'] = skin
-       return context
-
-
-3. In the templates do something like this:
-
-   {% ifequal skin "default" %}
-   <link rel="stylesheet" href="/media/default_skin.css">
-   {% endifequal %}
-   {% ifequal skin "blue" %}
-   <link rel="stylesheet" href="/media/blue_skin.css">
-   {% endifequal %}
-
-That is a bit ugly, but what I *really* want to do is to combine it with django-compress, and write code like this:
-
-   {% load compressed %}
-   {% ifequal skin "default" %}
-   {% compressed_css "default" %}
-   {% endifequal %}
-   {% ifequal skin "blue" %}
-   {% compressed_css "blue" %}
-   {% endifequal %}
-
-That would allow skins to be cached just as easily as the default CSS (and django-compress would make it easy to add far-future expires, so that the users will never even have to request the skin files).
-
-This seems like an elegant solution to me... any thoughts? I'll try to put something up on github tomorrow, and we can collaborate if we have both ideas and time. ;)
-
--Will
-
+    And you're done.
 

@@ -19,7 +19,20 @@
             "userskins.context.userskins",
             )
 
-4.  Establish values for the ``USERSKINS_DEFAULT``, ``USERSKINS_DETAILS``
+4.  Add the ``userskins.middleware.UserskinsMiddleware``
+    middleware to your project's middleware.
+
+        MIDDLEWARE_CLASSES = (
+            'django.middleware.common.CommonMiddleware',
+            'django.contrib.sessions.middleware.SessionMiddleware',
+            'django.contrib.auth.middleware.AuthenticationMiddleware',
+            'userskins.middleware.UserskinsMiddleware',
+        )
+
+    The position of the ``UserskinsMiddleware`` shouldn't be
+    signifigant.
+
+5.  Establish values for the ``USERSKINS_DEFAULT``, ``USERSKINS_DETAILS``
     and ``USERSKINS_USE_COMPRESS_GROUPS_INSTEAD`` values in your
     settings.py file.
 
@@ -41,7 +54,7 @@
     selectable skins without increasing the median bandwith per
     request or the median number of http requests per page.
 
-5.  Now modify your base template (or wherever you want to use skins)
+6.  Now modify your base template (or wherever you want to use skins)
     to resemble this code:
 
         {% load userskins %}

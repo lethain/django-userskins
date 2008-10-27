@@ -3,5 +3,9 @@ body {
     background: #525252;
     color: #AAAAFF;
     font-size: 0.9em;
-    
+}
+
+a {
+    color: #CCCCCC;
+    font-size: 1.5em;
 }
